@@ -10,4 +10,10 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(result);
 });
 
+handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log("query값", req.query);
+  const result = await Simpleboard.findByIdAndDelete({ _id: req.query._id });
+  return res.status(200).json(result);
+});
+
 export default handler;

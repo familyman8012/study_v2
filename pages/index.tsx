@@ -22,19 +22,31 @@ function Index() {
     get();
   }, []);
 
-  const send = () => {
-    axios
-      .post("/api/simpleboard", { title, writer, content })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
   const get = () => {
     axios
       .get("/api/simpleboard")
       .then((res) => {
         setData(res.data);
         console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const send = () => {
+    axios
+      .post("/api/simpleboard", { title, writer, content })
+      .then((res) => {
+        get();
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const deleteItem = (_id: String) => {
+    axios
+      .delete(`/api/simpleboard/${_id}`)
+      .then((res) => {
+        get();
       })
       .catch((err) => console.log(err));
   };
@@ -69,6 +81,7 @@ function Index() {
                   <span>작성자 : {el.writer}</span>
                 </a>
               </Link>
+              <button onClick={() => deleteItem(el._id)}>{el._id}삭제</button>
             </li>
           ))}
         </ul>
